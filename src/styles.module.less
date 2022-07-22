@@ -1,0 +1,39 @@
+.input {
+  text-transform: uppercase;
+}
+
+.container {
+  display: grid;
+  grid: repeat(5, 1fr) / repeat(8, 1fr);
+  width: 1000px;
+  height: 300px;
+  column-gap: 50px;
+}
+
+.flexContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 20px;
+
+  &.kill {
+    opacity: 0;
+    transition: 3s;
+  }
+
+  &.chosen {
+    border: 1px solid green;
+  }
+}
+
+.right {
+  color: green;
+}
+
+.wrong {
+  color: red;
+}
+
+.wrongPosition {
+  color: orange;
+}
