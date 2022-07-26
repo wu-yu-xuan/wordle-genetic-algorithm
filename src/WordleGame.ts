@@ -12,7 +12,7 @@ export default class WordleGame {
 
   generation = 0;
 
-  constructor({ wordleGuesserLength = 40, answer }: WordleGameOptions) {
+  constructor({ wordleGuesserLength = 50, answer }: WordleGameOptions) {
     this.wordleGuesserLength = wordleGuesserLength;
     this.answer = answer;
     this.guesserArray = new Array(this.wordleGuesserLength).fill(0).map(() => {

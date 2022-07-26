@@ -11,24 +11,28 @@ function App() {
 
   const [buttonDisable, setButtonDisable] = useState(true);
 
-  const [_, setNumber] = useState(0);
-
-  const forceUpdate = () => setNumber((x) => x + 1);
+  const [status, setStatus] = useState(`请输入一个英文单词后点击开始按钮`);
 
   const iterate = () => {
     if (!game || buttonDisable) {
       return;
     }
     game.kill();
+    setStatus(`第一步：淘汰`);
     setButtonDisable(true);
     setTimeout(() => {
       game.choose();
-      forceUpdate();
+      setStatus(`第二步：选种`);
       setTimeout(() => {
         game.crossover();
-        forceUpdate();
+        setStatus(`第三步：杂交`);
         setTimeout(() => {
           game.mutate();
+          const answer = game.guesserArray.find((x) => x.chosen)?.value;
+          const status = answer
+            ? `已找到答案：${answer.join("")}，请重新初始化`
+            : `请继续点击迭代按钮，或者重新初始化`;
+          setStatus(`第四步：变异。${status}`);
           setButtonDisable(false);
         }, TIMEOUT);
       }, TIMEOUT);
@@ -37,7 +41,7 @@ function App() {
 
   return (
     <>
-      <div>
+      <div className={styles.titleContainer}>
         <input
           className={styles.input}
           pattern="[A-Z]*"
@@ -48,7 +52,9 @@ function App() {
           onClick={() => {
             setGame(new WordleGame({ answer: answer.toUpperCase() }));
             setButtonDisable(false);
+            setStatus(`请点击迭代按钮`);
           }}
+          disabled={!answer}
         >
           Start
         </button>
@@ -56,6 +62,7 @@ function App() {
           Iterate
         </button>
         <span>generation: {game?.generation ?? 0}</span>
+        <span>{status}</span>
       </div>
       <div className={styles.container}>
         {game?.guesserArray.map((guesser, index) => {

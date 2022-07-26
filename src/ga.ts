@@ -47,7 +47,7 @@ export function mutate(guesser: WordleGuesser) {
      * 一般不会走到这里。
      * 走到这里意味着没有一个数据是正确的，所以干脆全随机吧
      */
-    guesser.setValue(guesser.value.map(() => getRandomAlpha()));
+    guesser.setValue(guesser.value.map((v) => getRandomAlpha([v])));
     return;
   }
 
@@ -73,7 +73,7 @@ export function mutate(guesser: WordleGuesser) {
   const fixWrongArray = produce(guesser.value, (draft) => {
     for (const index of shouldChangeIndexArray) {
       if (guesser.type[index] === WordleGuessType.WRONG) {
-        draft[index] = getRandomAlpha();
+        draft[index] = getRandomAlpha([draft[index]]);
       }
     }
   });
